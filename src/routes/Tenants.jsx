@@ -60,7 +60,7 @@ const Tenants = ({ user }) => {
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                fetchTenants(); // Update table after adding tenant
+                fetchTenants();
             })
             .catch(error => {
                 console.error(error);
@@ -84,7 +84,24 @@ const Tenants = ({ user }) => {
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                fetchTenants(); // Update table after removing tenant
+                fetchTenants();
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+    const handleDeleteRental = (id) => {
+        fetch(`https://moose-it.com/tomcat/progexam/api/rental/delete/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                fetchTenants();
+                alert("Rental deleted");
             })
             .catch(error => {
                 console.error(error);
@@ -109,6 +126,8 @@ const Tenants = ({ user }) => {
                     <th>Amount of rooms</th>
                     <th>Add tenant</th>
                     <th>Remove tenant</th>
+                    <th>Edit rental agreement</th>
+                    <th>Delete rental agreement</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -156,11 +175,23 @@ const Tenants = ({ user }) => {
                                     Remove Tenant
                                 </button>
                             </td>
+                            <td>
+                                <td>
+                                <NavLink to={{pathname: "/houseDetails"}} state={{houseDTO: rental.houseDTO}}>
+                                    Edit
+                                </NavLink>
+                            </td>
+                            </td>
+                            <td>
+                                <button className="btn btn-danger" onClick={() => handleDeleteRental(rental.id)}>
+                                    Delete Rental
+                                </button>
+                            </td>
                         </tr>
                     ))
                 ) : (
                     <tr>
-                        <td colSpan="9">No rentals available</td>
+                        <td colSpan="13">No rentals available</td>
                     </tr>
                 )}
                 </tbody>
