@@ -9,21 +9,30 @@ const Tenants = ({ user }) => {
     const [selectedTenant, setSelectedTenant] = useState("");
     const [selectedTenantToRemove, setSelectedTenantToRemove] = useState("");
 
-    useEffect(() => {
+    const fetchTenants = () => {
         const url = `/api/rental/all`;
         facade.fetchData(url).then((res) => {
             setTenants(res);
             console.log(tenants);
         });
-    }, []);
+    };
 
-    useEffect(() => {
+    const fetchAllTenantsInfo = () => {
         const url = `/api/info/all`;
         facade.fetchData(url).then((res) => {
             setAllTenants(res);
             console.log(allTenants);
         });
+    };
+
+    useEffect(() => {
+        fetchTenants();
     }, []);
+
+    useEffect(() => {
+        fetchAllTenantsInfo();
+    }, []);
+
     const handleTenantChange = (evt) => {
         console.log(selectedTenant);
         setSelectedTenant(evt.target.value);
@@ -33,6 +42,7 @@ const Tenants = ({ user }) => {
         console.log(selectedTenantToRemove);
         setSelectedTenantToRemove(evt.target.value);
     };
+
     const handleAddTenant = (id) => {
         console.log(selectedTenant);
         console.log(id);
@@ -50,17 +60,13 @@ const Tenants = ({ user }) => {
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-
+                fetchTenants(); // Update table after adding tenant
             })
             .catch(error => {
                 console.error(error);
             });
-        const url = `/api/rental/all`;
-        facade.fetchData(url).then((res) => {
-            setTenants(res);
-            console.log(tenants);
-        });
     };
+
     const handleRemoveTenant = (id) => {
         console.log(selectedTenantToRemove);
         console.log(id);
@@ -78,16 +84,11 @@ const Tenants = ({ user }) => {
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-
+                fetchTenants(); // Update table after removing tenant
             })
             .catch(error => {
                 console.error(error);
             });
-        const url = `/api/rental/all`;
-        facade.fetchData(url).then((res) => {
-            setTenants(res);
-            console.log(tenants);
-        });
     };
 
     return (
@@ -130,14 +131,14 @@ const Tenants = ({ user }) => {
                             <td>{rental.houseDTO.city}</td>
                             <td>{rental.houseDTO.numerOfRooms}</td>
                             <td>
-                            <select onChange={handleTenantChange}>
-                                <option value="">Select Tenant</option>
-                                {allTenants.map((tenant) => (
-                                    <option key={tenant.id} value={tenant.userName}>
-                                        {tenant.userName}
-                                    </option>
-                                ))}
-                            </select>
+                                <select onChange={handleTenantChange}>
+                                    <option value="">Select Tenant</option>
+                                    {allTenants.map((tenant) => (
+                                        <option key={tenant.id} value={tenant.userName}>
+                                            {tenant.userName}
+                                        </option>
+                                    ))}
+                                </select>
                                 <button className="btn btn-success" onClick={() => handleAddTenant(rental.id)}>
                                     Add Tenant
                                 </button>
