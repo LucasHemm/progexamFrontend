@@ -9,6 +9,7 @@ const Header = ({loggedIn,login,user,logout}) =>{
             <li><NavLink to="/">Home</NavLink></li>
             <li><NavLink to="/about">About</NavLink></li>
             {user.roles.includes('user') && <li><NavLink to="/rentals">Rentals</NavLink></li>}
+            {user.roles.includes('admin') && <li><NavLink to="/tenants">Tenants</NavLink></li>}
             {!loggedIn ? (<LogIn login={login}/>) :
                 (<>
                     <LoggedIn user={user} logout={logout}/>

@@ -12,7 +12,7 @@ function LoggedIn({user,logout}){
     return (
       <div>
         {/*<h3>{dataFromServer}</h3>*/}
-        <span>{user.username} with roles: {user.roles}<button onClick={logout}>Logout</button>
+        <span>Welcome {user.username} <button onClick={logout}>Logout</button>
 </span>
       </div>
     )
