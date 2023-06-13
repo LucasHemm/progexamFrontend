@@ -1,4 +1,4 @@
-const URL = "http://localhost:8080/3semstartcode";
+const URL = "https://moose-it.com/tomcat/progexam";
 
 function handleHttpErrors(res) {
  if (!res.ok) {
