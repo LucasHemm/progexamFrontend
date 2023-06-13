@@ -5,8 +5,9 @@ import { NavLink } from "react-router-dom";
 const Tenants = ({ user }) => {
 
     const [tenants, setTenants] = useState([]);
-
     const [allTenants, setAllTenants] = useState([]);
+    const [selectedTenant, setSelectedTenant] = useState("");
+    const [selectedTenantToRemove, setSelectedTenantToRemove] = useState("");
 
     useEffect(() => {
         const url = `/api/rental/all`;
@@ -23,6 +24,71 @@ const Tenants = ({ user }) => {
             console.log(allTenants);
         });
     }, []);
+    const handleTenantChange = (evt) => {
+        console.log(selectedTenant);
+        setSelectedTenant(evt.target.value);
+    };
+
+    const handleTenantChangeRemove = (evt) => {
+        console.log(selectedTenantToRemove);
+        setSelectedTenantToRemove(evt.target.value);
+    };
+    const handleAddTenant = (id) => {
+        console.log(selectedTenant);
+        console.log(id);
+
+        fetch('https://moose-it.com/tomcat/progexam/api/rental/add', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                newTenant: selectedTenant,
+                id: id,
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        const url = `/api/rental/all`;
+        facade.fetchData(url).then((res) => {
+            setTenants(res);
+            console.log(tenants);
+        });
+    };
+    const handleRemoveTenant = (id) => {
+        console.log(selectedTenantToRemove);
+        console.log(id);
+
+        fetch("https://moose-it.com/tomcat/progexam/api/rental/remove", {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                oldTenant: selectedTenantToRemove,
+                id: id,
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        const url = `/api/rental/all`;
+        facade.fetchData(url).then((res) => {
+            setTenants(res);
+            console.log(tenants);
+        });
+    };
 
     return (
         <div className="container">
@@ -41,6 +107,7 @@ const Tenants = ({ user }) => {
                     <th>City</th>
                     <th>Amount of rooms</th>
                     <th>Add tenant</th>
+                    <th>Remove tenant</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -62,7 +129,32 @@ const Tenants = ({ user }) => {
                             <td>{rental.houseDTO.address}</td>
                             <td>{rental.houseDTO.city}</td>
                             <td>{rental.houseDTO.numerOfRooms}</td>
-                            //dropdown menu wil the allTenants, with a button to submit. send the userName and id of the rental as parameters
+                            <td>
+                            <select onChange={handleTenantChange}>
+                                <option value="">Select Tenant</option>
+                                {allTenants.map((tenant) => (
+                                    <option key={tenant.id} value={tenant.userName}>
+                                        {tenant.userName}
+                                    </option>
+                                ))}
+                            </select>
+                                <button className="btn btn-success" onClick={() => handleAddTenant(rental.id)}>
+                                    Add Tenant
+                                </button>
+                            </td>
+                            <td>
+                                <select onChange={handleTenantChangeRemove}>
+                                    <option value="">Select Tenant</option>
+                                    {rental.userDTOs && rental.userDTOs.map((tenant) => (
+                                        <option key={tenant.id} value={tenant.userName}>
+                                            {tenant}
+                                        </option>
+                                    ))}
+                                </select>
+                                <button className="btn btn-danger" onClick={() => handleRemoveTenant(rental.id)}>
+                                    Remove Tenant
+                                </button>
+                            </td>
                         </tr>
                     ))
                 ) : (
