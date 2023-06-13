@@ -34,8 +34,8 @@ const Rentals = ({ user }) => {
                         <tr key={rental.startDate} style={{ cursor: 'pointer' }}>
                             <td>{rental.startDate}</td>
                             <td>{rental.endDate}</td>
-                            <td>{rental.priceAnnual}</td>
-                            <td>{rental.deposit}</td>
+                            <td>{rental.priceAnnual} kr.</td>
+                            <td>{rental.deposit} kr.</td>
                             <td>{rental.contactPerson}</td>
                             <td>
                                 <NavLink to={{pathname: "/houseDetails"}} state={{houseDTO: rental.houseDTO}}>

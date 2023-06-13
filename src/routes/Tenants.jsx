@@ -109,7 +109,7 @@ const Tenants = ({ user }) => {
     };
 
     return (
-        <div className="container">
+        <div className="container ml-5">
             <h1 className="mt-4">All Trips</h1>
 
             <table className="table table-striped table-hover mt-4">
@@ -136,8 +136,8 @@ const Tenants = ({ user }) => {
                         <tr key={rental.startDate} style={{ cursor: 'pointer' }}>
                             <td>{rental.startDate}</td>
                             <td>{rental.endDate}</td>
-                            <td>{rental.priceAnnual}</td>
-                            <td>{rental.deposit}</td>
+                            <td>{rental.priceAnnual} kr.</td>
+                            <td>{rental.deposit} kr.</td>
                             <td>{rental.contactPerson}</td>
                             <td>
                                 <ul>

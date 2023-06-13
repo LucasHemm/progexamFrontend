@@ -11,9 +11,9 @@ const EditRental = () => {
         priceAnnual: state.rental.priceAnnual || '',
         deposit: state.rental.deposit || '',
         contactPerson: state.rental.contactPerson || '',
-        address: state.rental.address || '',
-        city: state.rental.city || '',
-        numerOfRooms: state.rental.numberOfRooms || '',
+        address: state.rental.houseDTO.address || '',
+        city: state.rental.houseDTO.city || '',
+        numerOfRooms: state.rental.houseDTO.numerOfRooms || '',
     });
 
     const performCreate = (evt) => {
@@ -33,7 +33,7 @@ const EditRental = () => {
                 houseDTO: {
                     address: editData.address,
                     city: editData.city,
-                    numerOfRooms: editData.numberOfRooms,
+                    numerOfRooms: editData.numerOfRooms,
                 },
                 id: state.rental.id,
             })
