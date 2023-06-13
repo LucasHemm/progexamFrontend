@@ -177,7 +177,7 @@ const Tenants = ({ user }) => {
                             </td>
                             <td>
                                 <td>
-                                <NavLink to={{pathname: "/houseDetails"}} state={{houseDTO: rental.houseDTO}}>
+                                <NavLink to={{pathname: "/editRental"}} state={{rental: rental}}>
                                     Edit
                                 </NavLink>
                             </td>
